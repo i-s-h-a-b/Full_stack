@@ -13,6 +13,9 @@ app.set("view engine", "ejs"); //setting the template engine as ejs
 const path = require("path");
 const exactpath = path.join(__dirname, "views"); //setting the path for ejs files i.e the views folder path
 
+app.get('/,(req,res)=>{
+  res.send("Hello");
+});
 app.get("/home", (req, res) => {
   res.render("home");
 });
@@ -84,7 +87,7 @@ app.post("/forgotpass", async(req,res)=>{
     emailexist.save()
   }
 })
-
-app.listen(3000, () => {
-  console.log("my server is running on 3000 port");
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log("Server is running");
 });
