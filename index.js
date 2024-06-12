@@ -13,7 +13,7 @@ app.set("view engine", "ejs"); //setting the template engine as ejs
 const path = require("path");
 const exactpath = path.join(__dirname, "views"); //setting the path for ejs files i.e the views folder path
 
-app.get('/,(req,res)=>{
+app.get('/',(req,res)=>{
   res.send("Hello");
 });
 app.get("/home", (req, res) => {
