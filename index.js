@@ -3,15 +3,16 @@ const model_cons = require("./schema/schema");
 
 const bc = require("bcrypt");
 const ejs = require("ejs");
-
+const cors = require('cors');
 const express = require("express");
 const app = express();
 const bp = require("body-parser");
 app.use(bp.urlencoded({ extended: true }));
 app.use(bp.json());
-app.set("view engine", "ejs"); //setting the template engine as ejs
+app.use(cors());
+app.set("view engine", "ejs"); 
 const path = require("path");
-const exactpath = path.join(__dirname, "views"); //setting the path for ejs files i.e the views folder path
+const exactpath = path.join(__dirname, "views"); 
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -34,18 +35,14 @@ app.post("/signup", async (req, res) => {
   const emailexist = await model_cons.findOne({ email: req.body.email });
   if (emailexist) {
     return res.send(
-      "email id is exist ,kindly register with different email id"
-    );}
-//   } else if (req.body.password != req.body.cpassword) {
-//     return res.send("password not matching with conifrm password");
+      "email id is exist ,kindly register with different email id")
+  }
    else {
     const name = req.body.name;
     const email = req.body.email;
     const job = req.body.job;
     const password = req.body.password;
     const cpassword = req.body.cpassword;
-
-    // const hashedpassword=  await bc.hash(password,10)
 
     const template = model_cons({
       name,
@@ -59,10 +56,8 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-//Login Route
 app.post("/signin", async (req, res) => {
   const emailexist = await model_cons.findOne({ email: req.body.email });
-  // const passwordmatch = bp.compare(req.body.password,emailexist.password) //method to comapre encrypted password
   if (!emailexist) {
     return res.send("user not exist ,kindly register first");
   } else if (req.body.password != emailexist.password) {
